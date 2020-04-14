@@ -1,0 +1,57 @@
+------------------------------------------------------------------------------------------------------
+This code example was compiled using Windows 10 and Visual Studio Express 2010.
+------------------------------------------------------------------------------------------------------
+Important modifications:
+  "command.cpp"
+  1) Function Move3D:
+      Change of the nomenclature of the high-level commands:
+        cmd_vx <-> u_theta; 
+        cmd_vy <-> -u_phi;
+        cmd_vz <-> u_z
+        cmd_vr <-> u_psi
+      Exclude the internal function gains;
+  2) Change the maximum values for the controller
+      Set vz_max for 1 [m/s]: sockCommand.sendf("AT*CONFIG=%d,\"control:control_vz_max\",\"%d\"\r", ++seq, 1000);
+      Set inc_max for 15 [°]: sockCommand.sendf("AT*CONFIG=%d,\"control:euler_angle_max\",\"%f\"\r", ++seq, 15.0 * DEG_TO_RAD);
+      Set vr_max for 100 [°/s]: sockCommand.sendf("AT*CONFIG=%d,\"control:control_yaw\",\"%f\"\r", ++seq, 100.0 * DEG_TO_RAD);
+      Set z_max for 10 [m]:  sockCommand.sendf("AT*CONFIG=%d,\"control:altitude_max\",\"%d\"\r", ++seq, 10000);
+  
+  "navdata.cpp"
+  1) Disable bootstrap mode
+      sockCommand.sendf("AT*CONFIG=%d,\"general:navdata_demo\",\"FALSE\"\r", ++seq);
+
+
+-----------------------------------------------------------------
+Installation (Following https://github.com/puku0x/cvdrone)
+-----------------------------------------------------------------
+HOW TO INSTALL
+  Clone this repsoitory or unzip it into an arbitrary directory.
+
+BEFORE YOU BUILD
+  You should install Visual Studio.
+  This software supports VC++2010/2012/2013/2015.
+  To download VS, please see http://www.microsoft.com/visualstudio/eng/downloads .
+
+HOW TO USE
+  1. Open \build\vs20xx\test.sln
+  2. Press F7 to build.
+  3. Press F5 (or Ctrl+F5) to run.
+
+FOR AR.DRONE 1.0 USERS
+  Please update your AR.Drone's firmware to 1.11.5.
+
+FOR AR.DRONE 2.0 USERS
+  Please update your AR.Drone's firmware to 2.4.8.
+
+LIBRARY DEPENDENCIES
+  CV Drone uses following libraries.
+  - OpenCV 3.1.0 <3-clause BSD license>
+    http://opencv.org/
+  - FFmpeg 2.2.3 <LGPL v2.1 license>
+    http://www.ffmpeg.org/
+  - stdint.h/inttypes.h for Microsoft Visual Studio r26 <BSD license>
+    https://code.google.com/p/msinttypes/
+  - POSIX Threads for Win32 2.9.1 <LGPL v2.1 license>
+    http://www.sourceware.org/pthreads-win32/
+
+  License files for each library can be found in the 'licenses' folder.
